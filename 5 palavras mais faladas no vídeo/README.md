@@ -1,6 +1,6 @@
-# tag_video_youtube
+# Youtube - Python
 
-Programa que retorna as cinco palavras mais falada em um vídeo do youtube.
+Programa que retorna as cinco palavras mais faladas em um vídeo do youtube.
 
 É necessário inserir no código o link do vídeo que se deseja analisar.
 
