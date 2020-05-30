@@ -11,74 +11,79 @@ def transcribes(fileWAV):
 
     rec = sr.Recognizer()
 
-    # Transcreve o áudio.
-    with sr.AudioFile(fileWAV) as source:
+    try:
 
-        audio = rec.record(source)
+        # Transcreve o áudio.
+        with sr.AudioFile(fileWAV) as source:
 
-        phrases = rec.recognize_google(audio, language = 'pt-BR')
+            audio = rec.record(source)
 
-    # Edita as frases geradas.
-    editedPhrase = phrases.lower()
+            phrases = rec.recognize_google(audio, language = 'pt-BR')
 
-    editedPhrase = editedPhrase.split()
+        # Edita as frases geradas.
+        editedPhrase = phrases.lower()
 
-    uselessWords = []
+        editedPhrase = editedPhrase.split()
 
-    biggestFive = [(0, ''), (0, ''), (0, ''), (0, ''), (0, '')]
+        uselessWords = []
 
-    file = open('uselessWords.txt', 'r')
+        biggestFive = [(0, ''), (0, ''), (0, ''), (0, ''), (0, '')]
 
-    # Abre o arquivo que funciona como filtro, pois contém uma lista de palavras inúteis que devem ser descartadas.
-    for line in file:
+        file = open('uselessWords.txt', 'r')
 
-        uselessWords += [line.split('\n')[0]]
+        # Abre o arquivo que funciona como filtro, pois contém uma lista de palavras inúteis que devem ser descartadas.
+        for line in file:
 
-    file.close()
+            uselessWords += [line.split('\n')[0]]
 
-    # Para cada palavra da lista editedPhrase, o programa faz uma série de análises.
-    for word in editedPhrase:
+        file.close()
 
-        counter = 0
+        # Para cada palavra da lista editedPhrase, o programa faz uma série de análises.
+        for word in editedPhrase:
 
-        # Verifico se a palavra é inútil.
-        if uselessWords.count(word) == 0:
+            counter = 0
 
-            # Count retorna a quantidade de vezes que a palavra foi repetida.
-            current = editedPhrase.count(word)
+            # Verifico se a palavra é inútil.
+            if uselessWords.count(word) == 0:
 
-            counter_2 = len(editedPhrase) - 1
+                # Count retorna a quantidade de vezes que a palavra foi repetida.
+                current = editedPhrase.count(word)
 
-            # Apago a palavra analisada e todas as suas repetições.
-            while counter_2 != 0:
+                counter_2 = len(editedPhrase) - 1
 
-                if editedPhrase[counter_2] == word:
-                    editedPhrase.remove(editedPhrase[counter_2])
+                # Apago a palavra analisada e todas as suas repetições.
+                while counter_2 != 0:
 
-                counter_2 -= 1
+                    if editedPhrase[counter_2] == word:
+                        editedPhrase.remove(editedPhrase[counter_2])
 
-            while counter != len(biggestFive):
+                    counter_2 -= 1
 
-                # Se a palavra for diferente de todas as outras já acrescentadas.
-                if word != biggestFive[counter][1]:
+                while counter != len(biggestFive):
 
-                    # E for maior do que a menor palavra já inserida.
-                    if current > biggestFive[0][0]:
+                    # Se a palavra for diferente de todas as outras já acrescentadas.
+                    if word != biggestFive[counter][1]:
 
-                        # É deletada a menor palavra da lista
-                        biggestFive.remove(biggestFive[0])
+                        # E for maior do que a menor palavra já inserida.
+                        if current > biggestFive[0][0]:
 
-                        # E adicionada a nova palavra.
-                        biggestFive.append((current, word))
+                            # É deletada a menor palavra da lista
+                            biggestFive.remove(biggestFive[0])
 
-                        # A lista é ordenada.
-                        biggestFive.sort()
+                            # E adicionada a nova palavra.
+                            biggestFive.append((current, word))
 
-                    # E essa repetição é interrompida.
-                    break
+                            # A lista é ordenada.
+                            biggestFive.sort()
 
-                counter += 1
+                        # E essa repetição é interrompida.
+                        break
+
+                    counter += 1
+
+    except:
+
+        biggestFive = [(0, 'a'), (0, 'b'), (0, 'c'), (0, 'd'), (0, 'e')]
 
     return biggestFive
-
 

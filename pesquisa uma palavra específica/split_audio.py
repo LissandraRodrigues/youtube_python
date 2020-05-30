@@ -12,8 +12,8 @@ def split_audio(file):
     # Pega o áudio.
     sound = AudioSegment.from_file(file)
 
-    # Divide o vídeo a cada 10 segundos (10000 milissegundos).
-    partsSound = len(sound) // 10000
+    # Divide o vídeo a cada 5 segundos (5000 milissegundos).
+    partsSound = len(sound) // 5000
 
     partsNumber = 0
 
@@ -32,7 +32,7 @@ def split_audio(file):
                 path = nameAudio + str(currentPartNumber) + extensionAudio
 
                 # Gera um vídeo com os primeiros 10 segundos.
-                audio = sound[:10000]
+                audio = sound[:5000]
                 
                 audio.export(path, format = 'wav')
 
@@ -44,11 +44,11 @@ def split_audio(file):
                 path = nameAudio + str(currentPartNumber) + extensionAudio
 
                 # Gera vídeos com duração de 10 segundos.
-                audio = sound[10000 * (currentPartNumber - 1):10000 * currentPartNumber]
+                audio = sound[5000 * (currentPartNumber - 1):5000 * currentPartNumber]
                 
                 audio.export(path, format = 'wav')
                 
                 partsNumber += 1
 
-    # Retorna a quantidade de vezes que o vídeo foi dividido. 
+    # Retorna a quantidade de vezes que o vídeo foi dividido.
     return partsNumber
