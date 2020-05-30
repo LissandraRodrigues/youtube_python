@@ -1,4 +1,4 @@
-# Youtube Python
+# Youtube - Python
 
 Projetos de reconhecimento de voz e transcrição de áudio. 
 
